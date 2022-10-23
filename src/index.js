@@ -11,6 +11,7 @@ const gallerylightbox = new SimpleLightbox('.gallery a', {
 const gallery = document.querySelector('.gallery');
 const form = document.querySelector('form');
 const guard = document.querySelector('.guard');
+const submit = document.querySelector('.submitBtn');
 form.addEventListener('submit', onSubmit);
 
 const options = {
@@ -24,17 +25,47 @@ const observer = new IntersectionObserver(onLoad, options);
 let page = 1;
 let searchQuery = null;
 
-function onSubmit(e) {
+// function onSubmit(e) {
+//   e.preventDefault();
+
+//   searchQuery = e.currentTarget.elements.query.value;
+//   console.log(searchQuery);
+
+//   if (!searchQuery) {
+//     resetMarkup();
+//     return;
+//   }
+
+//   api(searchQuery)
+//     .then(images => {
+//       resetMarkup();
+//       page = 1;
+//       if (images.totalHits === 0) {
+//         Notify.failure(
+//           'Sorry, there are no images matching your search query. Please try again.'
+//         );
+//         return;
+//       }
+//       console.log(images);
+//       createMarkup(images);
+//       observer.observe(guard);
+//       return;
+//     })
+//     .catch(error => console.log(error));
+// }
+
+async function onSubmit(e) {
   e.preventDefault();
 
   searchQuery = e.currentTarget.elements.query.value;
   console.log(searchQuery);
+
   if (!searchQuery) {
     resetMarkup();
     return;
   }
 
-  api(searchQuery)
+  const apiR = await api(searchQuery)
     .then(images => {
       resetMarkup();
       page = 1;
@@ -52,8 +83,29 @@ function onSubmit(e) {
     .catch(error => console.log(error));
 }
 
-function onLoad(entries) {
-  entries.forEach(entry => {
+// function onLoad(entries) {
+//   entries.forEach(entry => {
+//     if (entry.isIntersecting) {
+//       page += 1;
+//       api(searchQuery, page).then(images => {
+//         console.log('This is images.hits', images.hits);
+//         console.log(page);
+//         createMarkup(images);
+//         if (images.hits.length === 0) {
+//           Notify.info(
+//             "We're sorry, but you've reached the end of search results."
+//           );
+//           observer.unobserve(guard);
+//           return;
+//         }
+//         return;
+//       });
+//     }
+//   });
+// }
+
+async function onLoad(entries) {
+  const add = await entries.forEach(entry => {
     if (entry.isIntersecting) {
       page += 1;
       api(searchQuery, page).then(images => {
@@ -65,6 +117,7 @@ function onLoad(entries) {
             "We're sorry, but you've reached the end of search results."
           );
           observer.unobserve(guard);
+          return;
         }
         return;
       });
@@ -114,28 +167,26 @@ function createMarkup(images) {
   gallerylightbox.refresh();
 }
 
-function api(searchQuery, page) {
-  return fetch(
-    `https://pixabay.com/api/?key=30691958-6af913c4f83636a6243d9d3b7&q=${searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`
-  ).then(resp => {
-    if (!resp.ok) {
-      throw new Error(resp.status);
-    }
-    return resp.json();
-  });
-}
+// function api(searchQuery, page) {
+//   return fetch(
+//     `https://pixabay.com/api/?key=30691958-6af913c4f83636a6243d9d3b7&q=${searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`
+//   ).then(resp => {
+//     if (!resp.ok) {
+//       throw new Error(resp.status);
+//     }
+//     return resp.json();
+//   });
+// }
+// api().then(console.log);
 
 function resetMarkup() {
   gallery.innerHTML = '';
 }
 
-// const btnLoad = document.querySelector('.more');
-// btnLoad.addEventListener('click', loadMore);
-// function loadMore() {
-//   page += 1;
-//   api(searchQuery, page).then(images => {
-//     console.log(images);
-//     createMarkup(images);
-//     return;
-//   });
-// }
+async function api(searchQuery, page) {
+  const rest = await fetch(
+    `https://pixabay.com/api/?key=30691958-6af913c4f83636a6243d9d3b7&q=${searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`
+  );
+  const dataRest = await rest.json();
+  return dataRest;
+}
