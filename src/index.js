@@ -11,7 +11,7 @@ const gallerylightbox = new SimpleLightbox('.gallery a', {
 const gallery = document.querySelector('.gallery');
 const form = document.querySelector('form');
 const guard = document.querySelector('.guard');
-const submit = document.querySelector('.submitBtn');
+const input = document.querySelector('input');
 form.addEventListener('submit', onSubmit);
 
 const options = {
@@ -64,6 +64,8 @@ async function onSubmit(e) {
     resetMarkup();
     return;
   }
+
+  e.currentTarget.reset();
 
   const apiR = await api(searchQuery)
     .then(images => {
