@@ -75,11 +75,11 @@ async function onLoad(entries) {
         console.log('This is images.hits', images.hits);
         console.log(page);
         createMarkup(images);
-        observer.unobserve(guard);
         if (images.hits.length === 0) {
           Notify.info(
             "We're sorry, but you've reached the end of search results."
           );
+          observer.unobserve(guard);
           return;
         }
         return;
