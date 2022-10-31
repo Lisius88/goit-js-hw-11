@@ -1,6 +1,8 @@
 body {
   padding: 0;
   margin: 0;
+  background-image: url('https://images.pexels.com/photos/207253/pexels-photo-207253.jpeg');
+  /* background-size: cover; */
 }
 
 :root {
@@ -57,6 +59,7 @@ body {
   border-radius: 3px;
   border-top: none;
   justify-content: space-around;
+  background-color: #ffffff;
 }
 
 .info-item {
@@ -84,34 +87,37 @@ body {
 }
 
 .header {
-  background-color: #06869c;
+  /* background-color: #06869c; */
   height: 80px;
 }
 
 .super-button {
   display: inline-block;
-  padding: 0;
-  margin: 0;
-  width: 90px;
-  height: 50px;
-  background-color: #06869c;
-  border: none;
-  border-radius: 50%;
+  margin: 10px;
+  text-decoration: none;
+  border: 2px solid #bfe2ff;
 
   position: fixed;
   top: 90%;
   left: 90%;
 
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 20px;
+  padding: 12px 20px;
+  color: #fff;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-family: 'Roboto Condensed', Тahoma, sans-serif;
+  background: #06869c;
+  transition: box-shadow 0.3s, transform 0.3s;
   cursor: pointer;
-
-  transition-property: background-color;
-  transition-duration: 250ms;
-  transition-timing-function: linear;
-  transition-delay: 0;
 }
 
 .super-button:hover {
-  background-color: #05aecc;
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), 0 16px 20px rgba(0, 0, 0, 0.2);
+  color: #fff;
 }
 
 .go-up {
