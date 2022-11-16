@@ -14,6 +14,15 @@ const guard = document.querySelector('.guard');
 const magic = document.querySelector('.super-button');
 form.addEventListener('submit', onSubmit);
 magic.addEventListener('click', onClick);
+document.addEventListener('scroll', () => {
+  scrolling += 1;
+  console.log(scrolling);
+  if (scrolling >= 50) {
+    magic.classList.remove('is-hidden');
+  }
+});
+
+let scrolling = 1;
 
 const options = {
   root: null,
@@ -27,7 +36,9 @@ let page = 1;
 let searchQuery = null;
 
 function onClick(e) {
-  console.log(e.currentTarget);
+  console.log('haha');
+  scrolling = 1;
+  magic.classList.add('is-hidden');
 }
 
 async function onSubmit(e) {
@@ -69,9 +80,6 @@ async function onLoad(entries) {
     if (entry.isIntersecting) {
       page += 1;
       api(searchQuery, page).then(images => {
-        if (page >= 2) {
-          magic.classList.remove('is-hidden');
-        }
         console.log('This is images.hits', images.hits);
         console.log(page);
         createMarkup(images);
